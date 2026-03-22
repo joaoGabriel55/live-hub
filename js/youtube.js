@@ -1,13 +1,19 @@
-import { cacheGet, cacheSet, getApiKey, addQuotaUsage, getQuotaUsage } from './storage.js';
+import {
+  cacheGet,
+  cacheSet,
+  getApiKey,
+  addQuotaUsage,
+  getQuotaUsage,
+} from "./storage.js";
 
-const BASE = 'https://www.googleapis.com/youtube/v3';
+const BASE = "https://www.googleapis.com/youtube/v3";
 
 const TTL = {
   live: 120,
   upcoming: 300,
   completed: 1800,
   channel: 86400 * 365,
-  video: 300
+  video: 300,
 };
 
 const QUOTA_LIMIT = 10000;
@@ -16,11 +22,11 @@ const QUOTA_LIMIT = 10000;
 
 async function apiCall(endpoint, params, quotaCost) {
   const key = getApiKey();
-  if (!key) throw new Error('API key not configured');
+  if (!key) throw new Error("API key not configured");
 
   const usage = getQuotaUsage();
   if (usage.used >= QUOTA_LIMIT) {
-    throw new Error('Daily API quota exceeded');
+    throw new Error("Daily API quota exceeded");
   }
 
   const url = new URL(`${BASE}/${endpoint}`);
@@ -33,12 +39,14 @@ async function apiCall(endpoint, params, quotaCost) {
 
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    const reason = body?.error?.errors?.[0]?.reason || '';
-    if (res.status === 401) throw new Error('Invalid API key');
-    if (res.status === 403 && reason === 'quotaExceeded') {
-      throw new Error('Daily API quota exceeded');
+    const reason = body?.error?.errors?.[0]?.reason || "";
+    if (res.status === 401) throw new Error("Invalid API key");
+    if (res.status === 403 && reason === "quotaExceeded") {
+      throw new Error("Daily API quota exceeded");
     }
-    throw new Error(`YouTube API error: ${res.status} ${reason || res.statusText}`);
+    throw new Error(
+      `YouTube API error: ${res.status} ${reason || res.statusText}`,
+    );
   }
 
   addQuotaUsage(quotaCost);
@@ -52,17 +60,21 @@ export async function resolveChannel(input) {
   if (!cleaned) return null;
 
   // Try handle-based resolution first (cheap: 1 unit)
-  const handle = cleaned.startsWith('@') ? cleaned : `@${cleaned}`;
+  const handle = cleaned.startsWith("@") ? cleaned : `@${cleaned}`;
   const cacheKey = `channel:${handle.toLowerCase()}`;
   const cached = cacheGet(cacheKey);
   if (cached) return cached;
 
   try {
-    const data = await apiCall('channels', {
-      part: 'snippet',
-      forHandle: handle.replace('@', ''),
-      maxResults: 1
-    }, 1);
+    const data = await apiCall(
+      "channels",
+      {
+        part: "snippet",
+        forHandle: handle.replace("@", ""),
+        maxResults: 1,
+      },
+      1,
+    );
 
     if (data.items?.length) {
       const ch = data.items[0];
@@ -70,13 +82,13 @@ export async function resolveChannel(input) {
         id: ch.id,
         handle: handle,
         title: ch.snippet.title,
-        thumbnailUrl: ch.snippet.thumbnails?.default?.url || ''
+        thumbnailUrl: ch.snippet.thumbnails?.default?.url || "",
       };
       cacheSet(cacheKey, channel, TTL.channel);
       return channel;
     }
   } catch (e) {
-    if (e.message.includes('API key') || e.message.includes('quota')) throw e;
+    if (e.message.includes("API key") || e.message.includes("quota")) throw e;
   }
 
   // Fallback: search by name (expensive: 100 units)
@@ -84,12 +96,16 @@ export async function resolveChannel(input) {
   const searchCached = cacheGet(searchKey);
   if (searchCached) return searchCached;
 
-  const data = await apiCall('search', {
-    part: 'snippet',
-    q: cleaned,
-    type: 'channel',
-    maxResults: 1
-  }, 100);
+  const data = await apiCall(
+    "search",
+    {
+      part: "snippet",
+      q: cleaned,
+      type: "channel",
+      maxResults: 1,
+    },
+    100,
+  );
 
   if (!data.items?.length) return null;
 
@@ -98,7 +114,7 @@ export async function resolveChannel(input) {
     id: item.snippet.channelId,
     handle: cleaned,
     title: item.snippet.channelTitle,
-    thumbnailUrl: item.snippet.thumbnails?.default?.url || ''
+    thumbnailUrl: item.snippet.thumbnails?.default?.url || "",
   };
   cacheSet(searchKey, channel, TTL.channel);
   return channel;
@@ -111,22 +127,29 @@ async function fetchStreams(channelId, eventType) {
   const cached = cacheGet(cacheKey);
   if (cached) return cached;
 
-  const data = await apiCall('search', {
-    part: 'snippet',
-    channelId,
-    eventType,
-    type: 'video',
-    order: 'date',
-    maxResults: 10
-  }, 100);
+  const data = await apiCall(
+    "search",
+    {
+      part: "snippet",
+      channelId,
+      eventType,
+      type: "video",
+      order: "date",
+      maxResults: 10,
+    },
+    100,
+  );
 
-  const streams = (data.items || []).map(item => ({
+  const streams = (data.items || []).map((item) => ({
     videoId: item.id.videoId,
     title: item.snippet.title,
     channelTitle: item.snippet.channelTitle,
-    thumbnailUrl: item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url || '',
+    thumbnailUrl:
+      item.snippet.thumbnails?.medium?.url ||
+      item.snippet.thumbnails?.default?.url ||
+      "",
     publishedAt: item.snippet.publishedAt,
-    eventType
+    eventType,
   }));
 
   cacheSet(cacheKey, streams, TTL[eventType] || TTL.completed);
@@ -134,15 +157,15 @@ async function fetchStreams(channelId, eventType) {
 }
 
 export function fetchLiveStreams(channelId) {
-  return fetchStreams(channelId, 'live');
+  return fetchStreams(channelId, "live");
 }
 
 export function fetchUpcomingStreams(channelId) {
-  return fetchStreams(channelId, 'upcoming');
+  return fetchStreams(channelId, "upcoming");
 }
 
 export function fetchCompletedStreams(channelId) {
-  return fetchStreams(channelId, 'completed');
+  return fetchStreams(channelId, "completed");
 }
 
 // Video details (batched, cheap: 1 unit per 50 IDs)
@@ -168,21 +191,26 @@ export async function fetchVideoDetails(videoIds) {
 
     if (misses.length === 0) continue;
 
-    const data = await apiCall('videos', {
-      part: 'snippet,liveStreamingDetails',
-      id: misses.join(',')
-    }, 1);
+    const data = await apiCall(
+      "videos",
+      {
+        part: "snippet,liveStreamingDetails",
+        id: misses.join(","),
+      },
+      1,
+    );
 
-    for (const item of (data.items || [])) {
+    for (const item of data.items || []) {
       const detail = {
         videoId: item.id,
         title: item.snippet.title,
         channelTitle: item.snippet.channelTitle,
-        thumbnailUrl: item.snippet.thumbnails?.medium?.url || '',
+        thumbnailUrl: item.snippet.thumbnails?.medium?.url || "",
         concurrentViewers: item.liveStreamingDetails?.concurrentViewers || null,
-        scheduledStartTime: item.liveStreamingDetails?.scheduledStartTime || null,
+        scheduledStartTime:
+          item.liveStreamingDetails?.scheduledStartTime || null,
         actualStartTime: item.liveStreamingDetails?.actualStartTime || null,
-        actualEndTime: item.liveStreamingDetails?.actualEndTime || null
+        actualEndTime: item.liveStreamingDetails?.actualEndTime || null,
       };
       cacheSet(`video:${item.id}`, detail, TTL.video);
       results.push(detail);
@@ -198,27 +226,30 @@ export async function fetchAllStreams(channelId) {
   const [live, upcoming, completed] = await Promise.all([
     fetchLiveStreams(channelId).catch(() => []),
     fetchUpcomingStreams(channelId).catch(() => []),
-    fetchCompletedStreams(channelId).catch(() => [])
+    fetchCompletedStreams(channelId).catch(() => []),
   ]);
 
   // Enrich with video details
-  const allIds = [...live, ...upcoming, ...completed].map(s => s.videoId);
+  const allIds = [...live, ...upcoming, ...completed].map((s) => s.videoId);
   let details = [];
   try {
     details = await fetchVideoDetails(allIds);
-  } catch { /* non-critical */ }
+  } catch {
+    /* non-critical */
+  }
 
-  const detailMap = new Map(details.map(d => [d.videoId, d]));
+  const detailMap = new Map(details.map((d) => [d.videoId, d]));
 
-  const enrich = (streams) => streams.map(s => ({
-    ...s,
-    ...(detailMap.get(s.videoId) || {})
-  }));
+  const enrich = (streams) =>
+    streams.map((s) => ({
+      ...s,
+      ...(detailMap.get(s.videoId) || {}),
+    }));
 
   return {
     live: enrich(live),
     upcoming: enrich(upcoming),
-    completed: enrich(completed)
+    completed: enrich(completed),
   };
 }
 
@@ -237,9 +268,9 @@ export function isQuotaSafe() {
 
 export async function validateApiKey(key) {
   const url = new URL(`${BASE}/channels`);
-  url.searchParams.set('part', 'id');
-  url.searchParams.set('forHandle', 'Google');
-  url.searchParams.set('key', key);
+  url.searchParams.set("part", "id");
+  url.searchParams.set("forHandle", "Google");
+  url.searchParams.set("key", key);
 
   const res = await fetch(url.toString());
   if (!res.ok) return false;

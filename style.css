@@ -1,6 +1,8 @@
 /* === Reset & Variables === */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -28,7 +30,13 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    system-ui,
+    sans-serif;
   background: var(--color-bg);
   color: var(--color-text);
   min-height: 100vh;
@@ -116,7 +124,9 @@ a:hover {
   color: var(--color-text-secondary);
   font-size: 12px;
   letter-spacing: 0.02em;
-  transition: color var(--transition), background var(--transition);
+  transition:
+    color var(--transition),
+    background var(--transition);
 }
 
 #header-actions button:hover {
@@ -258,7 +268,9 @@ a:hover {
   padding: 4px;
   font-size: 14px;
   color: var(--color-text-secondary);
-  transition: opacity var(--transition), color var(--transition);
+  transition:
+    opacity var(--transition),
+    color var(--transition);
   line-height: 1;
 }
 
@@ -366,8 +378,13 @@ a:hover {
 }
 
 @keyframes breathe {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .stream-grid {
@@ -383,7 +400,9 @@ a:hover {
   border-radius: var(--radius);
   overflow: hidden;
   cursor: pointer;
-  transition: transform var(--transition), background var(--transition);
+  transition:
+    transform var(--transition),
+    background var(--transition);
 }
 
 .stream-card:hover {
@@ -482,7 +501,12 @@ a:hover {
 .skeleton-thumb {
   width: 100%;
   padding-bottom: 56.25%;
-  background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-border) 50%, var(--color-surface) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    var(--color-border) 50%,
+    var(--color-surface) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 2s ease-in-out infinite;
 }
@@ -494,7 +518,12 @@ a:hover {
 .skeleton-line {
   height: 10px;
   border-radius: 6px;
-  background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-border) 50%, var(--color-surface) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    var(--color-border) 50%,
+    var(--color-surface) 75%
+  );
   background-size: 200% 100%;
   animation: shimmer 2s ease-in-out infinite;
   margin-bottom: 8px;
@@ -505,8 +534,12 @@ a:hover {
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* === Empty State in Streams === */
@@ -597,7 +630,8 @@ a:hover {
 }
 
 .modal-content input[type="text"],
-.modal-content input[type="number"] {
+.modal-content input[type="number"],
+.modal-content input[type="password"] {
   display: block;
   width: 100%;
   margin-top: 8px;
@@ -649,6 +683,38 @@ a:hover {
 
 .input-row button:hover {
   background: var(--color-primary-hover);
+}
+
+.password-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 8px;
+  top: 60%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity var(--transition);
+}
+
+.toggle-visibility:hover {
+  opacity: 1;
 }
 
 .error {
@@ -728,13 +794,25 @@ a:hover {
 }
 
 @keyframes toast-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes toast-out {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(8px); }
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 }
 
 /* === Hidden utility === */
