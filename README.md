@@ -1,4 +1,4 @@
-# LiveStream Hub
+# LiveZenTube
 
 A lightweight, client-side web app for monitoring YouTube live streams across multiple channels. No backend required -- everything runs in the browser using the YouTube Data API v3.
 

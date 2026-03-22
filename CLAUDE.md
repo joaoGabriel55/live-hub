@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-LiveStream Hub is a vanilla JavaScript SPA that monitors YouTube live streams. No framework, no build tools -- just ES modules served directly from `index.html`.
+LiveZenTube is a vanilla JavaScript SPA that monitors YouTube live streams. No framework, no build tools -- just ES modules served directly from `index.html`.
 
 ## Key Conventions
 

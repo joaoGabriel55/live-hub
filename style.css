@@ -7,30 +7,34 @@
 }
 
 :root {
-  --color-bg: #0f0f0f;
-  --color-surface: #1a1a1a;
-  --color-surface-hover: #252525;
-  --color-border: #2a2a2a;
-  --color-text: #e0e0e0;
-  --color-text-secondary: #999;
-  --color-accent: #ff4444;
-  --color-primary: #3ea6ff;
-  --color-primary-hover: #65b8ff;
-  --color-success: #2ecc71;
-  --color-warning: #f39c12;
-  --color-error: #e74c3c;
-  --sidebar-width: 260px;
-  --header-height: 56px;
-  --radius: 8px;
-  --radius-sm: 4px;
+  --color-bg: #0c0c0e;
+  --color-surface: #141416;
+  --color-surface-hover: #1c1c20;
+  --color-border: #1e1e22;
+  --color-text: #c8c8cc;
+  --color-text-secondary: #636368;
+  --color-accent: #6bb3a0;
+  --color-primary: #6bb3a0;
+  --color-primary-hover: #89c9b6;
+  --color-success: #6bb3a0;
+  --color-warning: #c9a96e;
+  --color-error: #b36b6b;
+  --color-live: #b36b6b;
+  --sidebar-width: 240px;
+  --header-height: 52px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.25s ease;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   background: var(--color-bg);
   color: var(--color-text);
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 button {
@@ -50,6 +54,7 @@ input {
 a {
   color: var(--color-primary);
   text-decoration: none;
+  transition: color var(--transition);
 }
 
 a:hover {
@@ -64,50 +69,54 @@ a:hover {
   left: 0;
   right: 0;
   height: var(--header-height);
-  background: var(--color-surface);
+  background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 24px;
   z-index: 100;
 }
 
 #header h1 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-text);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
 }
 
 #header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 #quota-display {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--color-text-secondary);
-  background: var(--color-bg);
   padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+  opacity: 0.6;
 }
 
 #quota-display.warning {
   color: var(--color-warning);
+  opacity: 1;
 }
 
 #quota-display.danger {
   color: var(--color-error);
+  opacity: 1;
 }
 
 #header-actions button {
-  padding: 6px 14px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
-  background: var(--color-bg);
   color: var(--color-text-secondary);
-  font-size: 13px;
-  transition: background 0.15s, color 0.15s;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  transition: color var(--transition), background var(--transition);
 }
 
 #header-actions button:hover {
@@ -127,9 +136,9 @@ a:hover {
 /* === Sidebar === */
 
 #sidebar {
-  background: var(--color-surface);
+  background: var(--color-bg);
   border-right: 1px solid var(--color-border);
-  padding: 16px;
+  padding: 20px 16px;
   overflow-y: auto;
   height: calc(100vh - var(--header-height));
   position: sticky;
@@ -139,7 +148,7 @@ a:hover {
 #channel-input-area {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 #channel-input {
@@ -147,11 +156,16 @@ a:hover {
   padding: 8px 12px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-text);
-  font-size: 13px;
+  font-size: 12px;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color var(--transition);
+}
+
+#channel-input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.5;
 }
 
 #channel-input:focus {
@@ -161,20 +175,22 @@ a:hover {
 #add-channel-btn {
   padding: 8px 14px;
   border-radius: var(--radius-sm);
-  background: var(--color-primary);
-  color: #000;
-  font-weight: 600;
-  font-size: 13px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-size: 12px;
   white-space: nowrap;
-  transition: background 0.15s;
+  transition: all var(--transition);
 }
 
 #add-channel-btn:hover {
-  background: var(--color-primary-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 #add-channel-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
@@ -182,7 +198,7 @@ a:hover {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .channel-item {
@@ -192,23 +208,30 @@ a:hover {
   padding: 8px 10px;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background var(--transition);
 }
 
 .channel-item:hover {
-  background: var(--color-surface-hover);
+  background: var(--color-surface);
 }
 
 .channel-item.active {
-  background: var(--color-bg);
+  background: var(--color-surface);
+  border-left: 2px solid var(--color-primary);
+  padding-left: 8px;
 }
 
 .channel-avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   object-fit: cover;
   background: var(--color-border);
+  opacity: 0.85;
+}
+
+.channel-item.active .channel-avatar {
+  opacity: 1;
 }
 
 .channel-info {
@@ -217,53 +240,56 @@ a:hover {
 }
 
 .channel-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--color-text);
 }
 
 .channel-handle {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--color-text-secondary);
 }
 
 .channel-remove {
   opacity: 0;
   padding: 4px;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--color-text-secondary);
-  transition: opacity 0.15s, color 0.15s;
+  transition: opacity var(--transition), color var(--transition);
   line-height: 1;
 }
 
 .channel-item:hover .channel-remove {
-  opacity: 1;
+  opacity: 0.5;
 }
 
 .channel-remove:hover {
+  opacity: 1 !important;
   color: var(--color-error);
 }
 
 .empty-hint {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-secondary);
   text-align: center;
-  padding: 24px 16px;
+  padding: 32px 16px;
+  opacity: 0.6;
 }
 
 /* === Content === */
 
 #content {
-  padding: 24px;
+  padding: 32px;
   overflow-y: auto;
 }
 
 /* === Player === */
 
 #player-area {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 #player-wrapper {
@@ -288,60 +314,66 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 10px 0;
+  padding: 12px 0;
 }
 
 #close-player {
   padding: 6px 14px;
   border-radius: var(--radius-sm);
-  background: var(--color-surface);
   color: var(--color-text-secondary);
-  font-size: 13px;
-  transition: background 0.15s, color 0.15s;
+  font-size: 12px;
+  transition: color var(--transition);
 }
 
 #close-player:hover {
-  background: var(--color-surface-hover);
   color: var(--color-text);
 }
 
 #open-youtube {
-  font-size: 13px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+#open-youtube:hover {
+  opacity: 1;
 }
 
 /* === Stream Sections === */
 
 .stream-section {
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .section-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   margin-bottom: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .live-dot {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--color-accent);
+  background: var(--color-live);
   display: inline-block;
-  animation: pulse 1.5s ease-in-out infinite;
+  animation: breathe 3s ease-in-out infinite;
 }
 
-@keyframes pulse {
+@keyframes breathe {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  50% { opacity: 0.3; }
 }
 
 .stream-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
 }
 
 /* === Stream Card === */
@@ -351,12 +383,12 @@ a:hover {
   border-radius: var(--radius);
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform var(--transition), background var(--transition);
 }
 
 .stream-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+  background: var(--color-surface-hover);
 }
 
 .thumbnail-wrapper {
@@ -373,62 +405,70 @@ a:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0.9;
+  transition: opacity var(--transition);
+}
+
+.stream-card:hover .thumbnail-wrapper img {
+  opacity: 1;
 }
 
 .live-badge {
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: var(--color-accent);
+  background: var(--color-live);
   color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 2px;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
 }
 
 .viewer-count {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
 }
 
 .scheduled-badge {
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5);
   color: var(--color-primary);
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 2px;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
 }
 
 .stream-info {
-  padding: 12px;
+  padding: 12px 14px;
 }
 
 .stream-title {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.3;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
   margin-bottom: 6px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  color: var(--color-text);
 }
 
 .stream-meta {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--color-text-secondary);
+  opacity: 0.7;
 }
 
 /* === Skeleton Loading === */
@@ -442,21 +482,21 @@ a:hover {
 .skeleton-thumb {
   width: 100%;
   padding-bottom: 56.25%;
-  background: linear-gradient(90deg, var(--color-bg) 25%, var(--color-border) 50%, var(--color-bg) 75%);
+  background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-border) 50%, var(--color-surface) 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+  animation: shimmer 2s ease-in-out infinite;
 }
 
 .skeleton-text {
-  margin: 12px;
+  margin: 14px;
 }
 
 .skeleton-line {
-  height: 12px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, var(--color-bg) 25%, var(--color-border) 50%, var(--color-bg) 75%);
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-border) 50%, var(--color-surface) 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+  animation: shimmer 2s ease-in-out infinite;
   margin-bottom: 8px;
 }
 
@@ -472,12 +512,13 @@ a:hover {
 /* === Empty State in Streams === */
 
 .stream-empty {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-secondary);
-  padding: 16px;
+  padding: 24px;
   text-align: center;
   background: var(--color-surface);
   border-radius: var(--radius);
+  opacity: 0.5;
 }
 
 /* === Modals === */
@@ -485,12 +526,12 @@ a:hover {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 200;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(12px);
 }
 
 .modal.hidden {
@@ -500,64 +541,74 @@ a:hover {
 .modal-content {
   background: var(--color-surface);
   border-radius: var(--radius);
-  padding: 32px;
-  max-width: 480px;
+  padding: 36px;
+  max-width: 440px;
   width: 90%;
+  border: 1px solid var(--color-border);
 }
 
 .modal-content h2 {
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: 500;
   margin-bottom: 12px;
+  letter-spacing: 0.02em;
 }
 
 .modal-content p {
   color: var(--color-text-secondary);
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 8px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .modal-content .hint {
-  font-size: 12px;
-  margin-bottom: 20px;
+  font-size: 11px;
+  margin-bottom: 24px;
+  opacity: 0.6;
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .close-btn {
-  font-size: 24px;
+  font-size: 20px;
   color: var(--color-text-secondary);
   padding: 4px;
   line-height: 1;
+  opacity: 0.5;
+  transition: opacity var(--transition);
 }
 
 .close-btn:hover {
-  color: var(--color-text);
+  opacity: 1;
 }
 
 .modal-content label {
   display: block;
-  font-size: 13px;
+  font-size: 11px;
   color: var(--color-text-secondary);
   margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .modal-content input[type="text"],
 .modal-content input[type="number"] {
   display: block;
   width: 100%;
-  margin-top: 6px;
-  padding: 8px 12px;
+  margin-top: 8px;
+  padding: 10px 14px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
   background: var(--color-bg);
   color: var(--color-text);
   outline: none;
+  font-size: 13px;
+  transition: border-color var(--transition);
 }
 
 .modal-content input:focus {
@@ -577,7 +628,8 @@ a:hover {
   background: var(--color-bg);
   color: var(--color-text);
   outline: none;
-  font-size: 14px;
+  font-size: 13px;
+  transition: border-color var(--transition);
 }
 
 .input-row input:focus {
@@ -588,9 +640,11 @@ a:hover {
   padding: 10px 20px;
   border-radius: var(--radius-sm);
   background: var(--color-primary);
-  color: #000;
-  font-weight: 600;
+  color: var(--color-bg);
+  font-weight: 500;
   white-space: nowrap;
+  font-size: 13px;
+  transition: background var(--transition);
 }
 
 .input-row button:hover {
@@ -599,25 +653,26 @@ a:hover {
 
 .error {
   color: var(--color-error);
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .settings-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
 .settings-actions button {
   padding: 8px 18px;
   border-radius: var(--radius-sm);
-  font-size: 13px;
+  font-size: 12px;
+  transition: all var(--transition);
 }
 
 .settings-actions button.primary {
   background: var(--color-primary);
-  color: #000;
-  font-weight: 600;
+  color: var(--color-bg);
+  font-weight: 500;
 }
 
 .settings-actions button.primary:hover {
@@ -626,19 +681,19 @@ a:hover {
 
 #settings-clear-cache {
   color: var(--color-text-secondary);
-  background: var(--color-bg);
+  opacity: 0.5;
 }
 
 #settings-clear-cache:hover {
-  color: var(--color-text);
+  opacity: 1;
 }
 
 /* === Toast === */
 
 #toast-container {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 24px;
+  right: 24px;
   display: flex;
   flex-direction: column-reverse;
   gap: 8px;
@@ -648,12 +703,12 @@ a:hover {
 .toast {
   padding: 12px 20px;
   border-radius: var(--radius-sm);
-  font-size: 13px;
+  font-size: 12px;
   background: var(--color-surface);
-  border-left: 3px solid var(--color-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  animation: toast-in 0.3s ease-out;
-  max-width: 360px;
+  border-left: 2px solid var(--color-primary);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: toast-in 0.4s ease-out;
+  max-width: 320px;
 }
 
 .toast.error {
@@ -669,17 +724,17 @@ a:hover {
 }
 
 .toast.fade-out {
-  animation: toast-out 0.3s ease-in forwards;
+  animation: toast-out 0.4s ease-in forwards;
 }
 
 @keyframes toast-in {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes toast-out {
-  from { opacity: 1; transform: translateX(0); }
-  to { opacity: 0; transform: translateX(40px); }
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(8px); }
 }
 
 /* === Hidden utility === */
@@ -692,7 +747,7 @@ a:hover {
 
 @media (max-width: 1023px) {
   .stream-grid {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
 }
 
@@ -721,13 +776,19 @@ a:hover {
     padding: 6px 10px;
   }
 
+  .channel-item.active {
+    border-left: none;
+    border-bottom: 2px solid var(--color-primary);
+    padding-left: 10px;
+  }
+
   .channel-info {
     display: none;
   }
 
   .channel-avatar {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
 
   .channel-remove {
@@ -735,11 +796,11 @@ a:hover {
     position: absolute;
     top: -4px;
     right: -4px;
-    font-size: 12px;
+    font-size: 10px;
     background: var(--color-surface);
     border-radius: 50%;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -750,7 +811,7 @@ a:hover {
   }
 
   #content {
-    padding: 16px;
+    padding: 20px;
   }
 
   .stream-grid {
@@ -764,7 +825,7 @@ a:hover {
 
 @media (max-width: 480px) {
   #header h1 {
-    font-size: 15px;
+    font-size: 13px;
   }
 
   #quota-display {
@@ -772,6 +833,6 @@ a:hover {
   }
 
   .modal-content {
-    padding: 24px 20px;
+    padding: 28px 20px;
   }
 }
