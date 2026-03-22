@@ -1,6 +1,6 @@
 # LiveZenTube
 
-<img width="3810" height="1292" alt="livezentube" src="https://github.com/user-attachments/assets/03bf78ad-ac7e-4e4f-93e3-000a27fcb761" />
+<img width="3810" height="1292" alt="livezentube" src="./preview.jpg" />
 
 A lightweight, client-side web app for monitoring YouTube live streams across multiple channels. No backend required -- everything runs in the browser using the YouTube Data API v3.
 
