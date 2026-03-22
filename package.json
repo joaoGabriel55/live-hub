@@ -1,0 +1,14 @@
+{
+  "name": "live-hub",
+  "version": "1.0.0",
+  "description": "A lightweight, client-side web app for monitoring YouTube live streams across multiple channels. No backend required -- everything runs in the browser using the YouTube Data API v3.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "test:unit": "node --test tests/storage.test.js tests/youtube.test.js tests/ui.test.js",
+    "test:integration": "node --test tests/app.integration.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

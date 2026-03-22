@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LiveStream Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="header">
+    <h1>LiveStream Hub</h1>
+    <div id="header-actions">
+      <span id="quota-display" title="YouTube API quota usage today">0 / 10,000</span>
+      <button id="refresh-btn" title="Refresh all channels">Refresh</button>
+      <button id="settings-btn" title="Settings">Settings</button>
+    </div>
+  </header>
+
+  <!-- API Key Prompt (first-run) -->
+  <div id="apikey-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Welcome to LiveStream Hub</h2>
+      <p>Enter your YouTube Data API v3 key to get started.</p>
+      <p class="hint">Get your key at <strong>console.cloud.google.com</strong> &rarr; APIs &amp; Services &rarr; Credentials</p>
+      <div class="input-row">
+        <input id="apikey-input" type="text" placeholder="AIza..." autocomplete="off" spellcheck="false">
+        <button id="apikey-submit">Save Key</button>
+      </div>
+      <p id="apikey-error" class="error hidden"></p>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button id="settings-close" class="close-btn">&times;</button>
+      </div>
+      <label>
+        API Key
+        <input id="settings-apikey" type="text" autocomplete="off" spellcheck="false">
+      </label>
+      <label>
+        Auto-refresh interval (minutes)
+        <input id="settings-interval" type="number" min="5" max="120" value="15">
+      </label>
+      <div class="settings-actions">
+        <button id="settings-clear-cache">Clear Cache</button>
+        <button id="settings-save" class="primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <main id="app">
+    <aside id="sidebar">
+      <div id="channel-input-area">
+        <input id="channel-input" type="text" placeholder="@handle or channel name">
+        <button id="add-channel-btn">Add</button>
+      </div>
+      <ul id="channel-list"></ul>
+      <p id="channel-empty" class="empty-hint">No channels added yet.</p>
+    </aside>
+
+    <section id="content">
+      <!-- Player -->
+      <div id="player-area" class="hidden">
+        <div id="player-wrapper">
+          <iframe id="player" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        </div>
+        <div id="player-controls">
+          <button id="close-player">Close Player</button>
+          <a id="open-youtube" href="#" target="_blank" rel="noopener">Open on YouTube</a>
+        </div>
+      </div>
+
+      <!-- Streams -->
+      <div id="streams-container">
+        <section id="live-section" class="stream-section">
+          <h2 class="section-title"><span class="live-dot"></span> Live Now</h2>
+          <div id="live-streams" class="stream-grid"></div>
+        </section>
+
+        <section id="upcoming-section" class="stream-section">
+          <h2 class="section-title">Upcoming</h2>
+          <div id="upcoming-streams" class="stream-grid"></div>
+        </section>
+
+        <section id="completed-section" class="stream-section">
+          <h2 class="section-title">Recent Streams</h2>
+          <div id="completed-streams" class="stream-grid"></div>
+        </section>
+      </div>
+
+      <p id="content-empty" class="empty-hint hidden">Select or add a channel to see streams.</p>
+    </section>
+  </main>
+
+  <div id="toast-container"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
