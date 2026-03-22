@@ -48,6 +48,14 @@
   <body>
     <header id="header">
       <h1>LiveZenTube</h1>
+      <div id="channel-input-area">
+        <input
+          id="channel-input"
+          type="text"
+          placeholder="@handle or channel name"
+        />
+        <button id="add-channel-btn">Add</button>
+      </div>
       <div id="header-actions">
         <span id="quota-display" title="YouTube API quota usage today"
           >0 / 10,000</span
@@ -183,14 +191,6 @@
 
     <main id="app">
       <aside id="sidebar">
-        <div id="channel-input-area">
-          <input
-            id="channel-input"
-            type="text"
-            placeholder="@handle or channel name"
-          />
-          <button id="add-channel-btn">Add</button>
-        </div>
         <ul id="channel-list"></ul>
         <p id="channel-empty" class="empty-hint">No channels added yet.</p>
       </aside>
