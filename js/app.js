@@ -70,6 +70,9 @@ function wireEvents() {
       storage.clearCache();
       ui.showToast("Cache cleared", "success");
     });
+
+  // Sidebar drawer toggle (mobile)
+  ui.initSidebarToggle();
 }
 
 // === API Key ===

@@ -109,7 +109,10 @@ export function renderChannelList(
         }),
       ],
     );
-    item.addEventListener("click", () => onSelect(channel.id));
+    item.addEventListener("click", () => {
+      onSelect(channel.id);
+      if (isMobileView()) closeSidebar();
+    });
     list.appendChild(item);
   }
 }
@@ -336,6 +339,49 @@ export function showContentEmpty(show) {
 export function showStreamsContainer(show) {
   const el = document.getElementById("streams-container");
   if (el) el.classList.toggle("hidden", !show);
+}
+
+// === Sidebar Drawer (mobile) ===
+
+function isMobileView() {
+  return typeof window !== "undefined" && window.innerWidth < 1024;
+}
+
+export function openSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  sidebar.classList.add("open");
+  backdrop.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+export function closeSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  sidebar.classList.remove("open");
+  backdrop.classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
+export function initSidebarToggle() {
+  const toggle = document.getElementById("sidebar-toggle");
+  const backdrop = document.getElementById("sidebar-backdrop");
+
+  toggle.addEventListener("click", () => {
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar.classList.contains("open")) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+
+  backdrop.addEventListener("click", closeSidebar);
+
+  // Close sidebar on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSidebar();
+  });
 }
 
 // === Password Visibility Toggle ===
